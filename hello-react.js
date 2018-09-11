@@ -611,10 +611,16 @@ let BlogPostRow = function(post) {
             console.log(post);
             return h('li', {className: 'PostRow'}, [
                 h('h4', {}, [post.id]),
-                h('p', {}, [post.body])
+                h('p', {}, [post.body]),
+                h('button',{
+                    onClick: () => {
+                       posts = posts.filter(blog => blog.id !== post.id)
+                       rerender();
+                    }
+                }, ['Delete Me']),
+                h('hr', {}, null)
             ]);
-        // })
-}
+};
 
 let PostList = (props) => {
     return h('ul', {}, [
@@ -623,23 +629,25 @@ let PostList = (props) => {
     ])
 };
 
+let page = () => 
 
-let vdom = h('div', {}, [
-    
+    h('div', {}, [
+
     h('h1', { className: 'big-header'}, ['Bookstore']),
-    
-
-
     h(PostList, {blogs: posts}),
-        
-        // h('li', {}, ['book 1']),
-        // h('li', {}, ['Book 2']),
-        // h('li', {}, ['Book 3'])
-        //dom is the view to our react vdom? view
     h('footer', {}, ['Copyright 2018']),
     h('a', {href: 'mypage.com'}, ['My Website']),
     ]
 );
 
-ReactDOM.render(vdom, document.querySelector('.react-root'));
+let rerender = () => {
+    ReactDOM.render(h(page, {posts}), document.querySelector('.react-root')
+    );
+};
 
+rerender();
+
+//objects are called props
+
+//{posts} doesnt NEED to be there
+//cant render funcitons, can only render VDOM which the invoked funciton returns
